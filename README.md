@@ -15,4 +15,4 @@ In order to run the application, you are required to have the following python l
 - time
 - threading
 
-make sure to have the libraries installed using "pip install"
+Make sure to have the libraries installed using "pip install"
