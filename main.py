@@ -34,7 +34,7 @@ def initialize_dash_app(result):
         ),
         dcc.Interval(
             id='interval-component',
-            interval=1*100,  # Update every 0.1 seconds, minimizing the delay for real-time data
+            interval=1*250,  # Update every 0.25 seconds, minimizing the delay for real-time data
             n_intervals=0
         )
     ])
@@ -60,6 +60,7 @@ if __name__ == '__main__':
     detector = ArbitrageDetector()
     detector.start()
 
+    print("Initializing web server...") # notify user via terminal
     app = initialize_dash_app(detector.result)
     threading.Thread(target=open_browser).start()
-    app.run_server(debug=True)
+    app.run_server()

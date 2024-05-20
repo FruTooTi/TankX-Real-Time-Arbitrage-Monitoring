@@ -27,6 +27,7 @@ class ArbitrageDetector:
         Returns:
             list: List of trading pairs with their respective assets.
         """
+        print("Fetching trading pairs...") # notify user via terminal
         initial_data = requests.get("https://api.binance.com/api/v3/exchangeInfo").json()
         capsules = []  # Capsules are in this format: {symbol: AB, left: A, right: B}
         for element in initial_data["symbols"]:
@@ -91,6 +92,7 @@ class ArbitrageDetector:
         Returns:
             list: List of valid potential triangular arbitrage opportunities.
         """
+        print("Finding valid triangles...") # notify user via terminal
         combinations = self.find_combinations_of_3(all_trading_pairs)
         correct_triangles = []
         for combination in combinations:
@@ -108,6 +110,7 @@ class ArbitrageDetector:
         Returns:
             str: WebSocket stream string.
         """
+        print("Building the book ticker stream...") # notify user via terminal
         trading_pairs = {item["symbol"].lower() for triangle in correct_triangles for item in triangle}
         return "/".join([f"{pair}@bookTicker" for pair in trading_pairs])
 
@@ -118,6 +121,7 @@ class ArbitrageDetector:
         Args:
             symbols (str): A string of trading pair symbols for the WebSocket stream.
         """
+        print("Gathering book ticker data...") # notify user via terminal
         socket = f"wss://stream.binance.com:9443/stream?streams={symbols}"
         ws = websocket.WebSocketApp(socket, on_message=self.on_message, on_close=self.on_close, on_error=self.on_error)
         ws.run_forever()
